@@ -34,13 +34,11 @@ class Tree{
     }
 
     printTree(node, prefix = '', isLeft = true){
-        // console.log(node)
         if (node === null) {
            return;
         }
-        // console.log(node.right)
+
         if (node.right !== null) {
-            // console.log("Hello?")
             this.printTree(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
         }
         console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
@@ -52,7 +50,7 @@ class Tree{
     insert(node, num){
         if (num === node.data) {
             console.log("Number already in tree")
-            return "Number already in tree";
+            return;
         }
         if (num < node.data) {
             if (node.left !== null) {
@@ -69,6 +67,33 @@ class Tree{
             }else{
                 let newNode = new Node(num);
                 node.right = newNode;
+            }
+        }
+    }
+
+    delete(node, num){
+        console.log(node)
+        if(node === null){
+            console.log("Number not in tree")
+            return
+        }else{
+            if (num === node.left.data) {
+                node.left = null
+                console.log("deleting")
+                return;
+            }
+            if (num === node.right.data) {
+                node.right = null
+                console.log("deleting")
+                return;
+            }
+
+            if (num < node.data) {
+                this.delete(node.left, num)
+            }
+    
+            if (num > node.data) {
+                this.delete(node.right, num)
             }
         }
     }
@@ -102,14 +127,19 @@ function removeDuplicates(arr){
     return arr
 }
 
-arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+// arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+
+arr = [1, 2, 3, 4, 5]
 
 
 let tree = new Tree()
 let root = tree.buildTree(arr)
 tree.printTree(root);
-tree.insert(root, 33);
+// tree.insert(root, 33);
+// tree.printTree(root);
+tree.delete(root, 5);
 tree.printTree(root);
+console.log(root)
 
 
 
