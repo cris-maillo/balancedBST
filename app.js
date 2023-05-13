@@ -4,37 +4,49 @@ class Node{
         this.left = null;
         this.right = null;
     }
-
 }
-
 
 class Tree{
     constructor(){
-        this.root = Math.floor(arr.length / 2);
+        this.root = null;
     }
 
     buildTree(arr){
-        arr = removeDuplicates(arr)
-        arr = sortArray(arr)
-        console.log("Hello")
-        console.log(arr)
-
-        return arr
-
-        if(arr.length <= 1){
-            return arr
-        }else{
-            let middle = Math.floor(arr.length / 2)
-            arr = arr.slice(0, middle)
-            buildTree(arr)
+        arr = removeDuplicates(arr);
+        arr = sortArray(arr);
+    
+        this.root = this.buildTreeRecursive(arr, 0, arr.length - 1);
+        return this.root;
+      }
+    
+    buildTreeRecursive(arr, start, end) {
+        if (start > end) {
+            return null;
         }
 
-        return this.root
+        let middle = Math.floor((start + end) / 2);
+        let node = new Node(arr[middle]);
+
+        node.left = this.buildTreeRecursive(arr, start, middle - 1);
+        node.right = this.buildTreeRecursive(arr, middle + 1, end);
+
+        return node;
     }
 }
 
-function sortArray(arr){
 
+function sortArray(arr){
+    var n = arr.length;
+  
+    for (let i = 0; i < n - 1; i++) {
+      for (let j = 0; j < n - i - 1; j++) {
+        if (arr[j] > arr[j + 1]) {
+          var tmp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = tmp;
+        }
+      }
+    }
     return arr
 }
 
@@ -50,21 +62,11 @@ function removeDuplicates(arr){
     return arr
 }
 
+arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
-let tree = new Tree(arr)
+let tree = new Tree()
 
-tree.buildTree(arr)
-
-// Build a Tree class / factory 
-// which accepts an array when initialized. 
-// The Tree class should have a root attribute which uses 
-// the return value of buildTree which you’ll write next.
-
-// Write a buildTree function which 
-// takes an array of data (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) 
-// and turns it into a balanced binary tree full of Node objects appropriately placed 
-// (don’t forget to sort and remove duplicates!). 
-// The buildTree function should return the level-0 root node.
+let root = tree.buildTree(arr)
 
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
@@ -80,4 +82,4 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
     }
 }
 
-
+prettyPrint(root)
