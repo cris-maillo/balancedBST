@@ -34,15 +34,42 @@ class Tree{
     }
 
     printTree(node, prefix = '', isLeft = true){
+        // console.log(node)
         if (node === null) {
            return;
         }
+        // console.log(node.right)
         if (node.right !== null) {
+            // console.log("Hello?")
             this.printTree(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
         }
         console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
         if (node.left !== null) {
             this.printTree(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        }
+    }
+
+    insert(node, num){
+        if (num === node.data) {
+            console.log("Number already in tree")
+            return "Number already in tree";
+        }
+        if (num < node.data) {
+            if (node.left !== null) {
+                this.insert(node.left, num)
+            }else{
+                let newNode = new Node(num);
+                node.left = newNode;
+            }
+        }
+
+        if (num > node.data) {
+            if (node.right !== null) {
+                this.insert(node.right, num)
+            }else{
+                let newNode = new Node(num);
+                node.right = newNode;
+            }
         }
     }
 }
@@ -77,8 +104,11 @@ function removeDuplicates(arr){
 
 arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
+
 let tree = new Tree()
 let root = tree.buildTree(arr)
+tree.printTree(root);
+tree.insert(root, 33);
 tree.printTree(root);
 
 
